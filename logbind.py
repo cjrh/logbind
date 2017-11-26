@@ -13,7 +13,8 @@ import logging
 __version__ = '2017.11.1'
 
 
-def bind(logger, **kwargs) -> logging.LoggerAdapter:
+def bind(logger, **kwargs):
+    # type: (logging.Logger, ...) -> logging.LoggerAdapter
 
     class Adapter(logging.LoggerAdapter):
         def __init__(self, logger, extra):
