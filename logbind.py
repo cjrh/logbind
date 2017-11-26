@@ -25,5 +25,7 @@ def bind(logger, **kwargs):
                 pass
 
             super(Adapter, self).__init__(logger, extra)
+            if not hasattr(self, '_log'):
+                self._log = logger._log
 
     return Adapter(logger, kwargs)
