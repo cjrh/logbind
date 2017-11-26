@@ -25,10 +25,5 @@ def bind(logger, **kwargs):
                 pass
 
             super(Adapter, self).__init__(logger, extra)
-            # This below is for Python < 3.6
-            if not hasattr(self, 'manager'):
-                self.manager = logger.manager
-            if not hasattr(self, '_log'):
-                self._log = logger._log
 
     return Adapter(logger, kwargs)
