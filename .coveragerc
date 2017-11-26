@@ -1,5 +1,8 @@
 [run]
 branch = True
+include =
+    logbind.py
+    tests/*
 
 [report]
 # Regexes for lines to exclude from consideration
