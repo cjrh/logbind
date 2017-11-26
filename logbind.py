@@ -1,8 +1,9 @@
 """
-Mystique
-========
+logbind
+=======
 
-Ever-changing loggers
+Much, much easier interface for ``LoggerAdapter``: bind new fields to
+loggers.
 
 """
 
@@ -12,16 +13,16 @@ import logging
 __version__ = '2017.11.1'
 
 
-def adapt(logger, prefix):
-    # type: (logging.Logger, Any)
-    return _Adapter(logger, prefix)
+def bind(logger, **kwargs) -> logging.LoggerAdapter:
 
+    class Adapter(logging.LoggerAdapter):
+        def __init__(self, logger, extra):
+            try:
+                # Reuse "extra" from the given logger
+                extra.update(logger.extra)
+            except AttributeError:
+                pass
+            else:
+                super().__init__(logger, extra)
 
-class _Adapter(logging.LoggerAdapter):
-    def __init__(self, logger, prefix_data, **kwargs):
-        super(_Adapter, self).__init__(logger, kwargs)
-        self.prefix_data = str(prefix_data)
-
-    def process(self, msg, kwargs):
-        prefix = str(self.prefix_data)
-        return '%s %s' % (prefix, msg), kwargs
+    return Adapter(logger, kwargs)
