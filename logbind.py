@@ -23,9 +23,12 @@ def bind(logger, **kwargs) -> logging.LoggerAdapter:
             except AttributeError:
                 pass
 
-            super().__init__(logger, extra)
+            super(Adapter, self).__init__(logger, extra)
             # This below is for Python < 3.6
             if not hasattr(self, 'manager'):
                 self.manager = logger.manager
+
+        def _log(self, *args, **kwargs):
+            super(Adapter, self)._log(*args, **kwargs)
 
     return Adapter(logger, kwargs)
