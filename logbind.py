@@ -27,8 +27,7 @@ def bind(logger, **kwargs) -> logging.LoggerAdapter:
             # This below is for Python < 3.6
             if not hasattr(self, 'manager'):
                 self.manager = logger.manager
-
-        def _log(self, *args, **kwargs):
-            super(Adapter, self)._log(*args, **kwargs)
+            if not hasattr(self, '_log'):
+                self._log = logger._log
 
     return Adapter(logger, kwargs)
