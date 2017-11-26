@@ -9,7 +9,7 @@ Ever-changing loggers
 import logging
 
 
-__version__ = '2017.7.1'
+__version__ = '2017.11.1'
 
 
 def adapt(logger, prefix):
