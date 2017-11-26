@@ -24,5 +24,8 @@ def bind(logger, **kwargs) -> logging.LoggerAdapter:
                 pass
 
             super().__init__(logger, extra)
+            # This below is for Python < 3.6
+            if not hasattr(self, 'manager'):
+                self.manager = logger.manager
 
     return Adapter(logger, kwargs)
