@@ -22,7 +22,7 @@ def bind(logger, **kwargs) -> logging.LoggerAdapter:
                 extra.update(logger.extra)
             except AttributeError:
                 pass
-            else:
-                super().__init__(logger, extra)
+
+            super().__init__(logger, extra)
 
     return Adapter(logger, kwargs)

@@ -1,3 +1,4 @@
+import sys
 import logging
 import logbind
 
@@ -5,7 +6,7 @@ import logbind
 class CapturingHandler(logging.StreamHandler):
     def __init__(self, *args, capture=None, **kwargs):
         super(CapturingHandler, self).__init__(*args, **kwargs)
-        self.capture = capture or []
+        self.capture = capture
 
     def format(self, record: logging.LogRecord):
         """Don't even need a Formatter class at all."""
@@ -16,10 +17,15 @@ class CapturingHandler(logging.StreamHandler):
 def test_main():
     logger = logging.getLogger('a')
     capture = []
-    logger.addHandler(CapturingHandler(capture=capture))
+    logger.addHandler(CapturingHandler(capture=capture, stream=sys.stdout))
     logger.info('Hello')
     assert not hasattr(capture[-1], 'id')
 
     l2 = logbind.bind(logger, id=12345)
     l2.info('Hello again')
     assert capture[-1].id == 12345
+
+    l3 = logbind.bind(l2, abc=67890)
+    l3.info('Hello yet again')
+    assert capture[-1].id == 12345
+    assert capture[-1].abc == 67890
