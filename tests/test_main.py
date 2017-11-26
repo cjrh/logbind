@@ -4,9 +4,9 @@ import logbind
 
 
 class CapturingHandler(logging.StreamHandler):
-    def __init__(self, *args, capture=None, **kwargs):
-        super(CapturingHandler, self).__init__(*args, **kwargs)
-        self.capture = capture
+    def __init__(self, *args, **kwargs):
+        self.capture = kwargs.pop('capture')
+        super(CapturingHandler, self).__init__(*args)
 
     def format(self, record: logging.LogRecord):
         """Don't even need a Formatter class at all."""
