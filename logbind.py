@@ -18,7 +18,7 @@ def bind(logger, **kwargs) -> logging.LoggerAdapter:
     class Adapter(logging.LoggerAdapter):
         def __init__(self, logger, extra):
             try:
-                # Reuse "extra" from the given logger
+                # Reuse "extra" from the given logger, if present.
                 extra.update(logger.extra)
             except AttributeError:
                 pass
