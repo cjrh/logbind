@@ -8,7 +8,8 @@ class CapturingHandler(logging.StreamHandler):
         self.capture = kwargs.pop('capture')
         super(CapturingHandler, self).__init__(*args)
 
-    def format(self, record: logging.LogRecord):
+    def format(self, record):
+        # type: (logging.LogRecord) -> str
         """Don't even need a Formatter class at all."""
         self.capture.append(record)
         return super(CapturingHandler, self).format(record)
