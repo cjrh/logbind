@@ -16,16 +16,13 @@ __version__ = '2017.11.4'
 def bind(logger, **kwargs):
     # type: (logging.Logger, ...) -> logging.LoggerAdapter
 
-    class Adapter(logging.LoggerAdapter):
-        def __init__(self, logger, extra):
-            try:
-                # Reuse "extra" from the given logger, if present.
-                extra.update(logger.extra)
-            except AttributeError:
-                pass
+    extra = {}
 
-            super(Adapter, self).__init__(logger, extra)
-            if not hasattr(self, '_log'):
-                self._log = logger._log
+    # If given a LoggerAdapter instance, extract the extra
+    # fields and find the original logging.Logger instance.
+    if isinstance(logger, logging.LoggerAdapter):
+        extra.update(logger.extra)  # Use update to force a copy
+        logger = logger.logger
 
-    return Adapter(logger, kwargs)
+    extra.update(kwargs)
+    return logging.LoggerAdapter(logger, extra)
