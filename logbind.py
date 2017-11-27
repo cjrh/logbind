@@ -10,7 +10,7 @@ loggers.
 import logging
 
 
-__version__ = '2017.11.4'
+__version__ = '2017.11.5'
 
 
 def bind(logger, **kwargs):
